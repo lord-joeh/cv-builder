@@ -16,7 +16,7 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 FROM base AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install --prefer-offline --no-audit
 
 # Stage 3: Build the Next.js application
 FROM base AS builder
