@@ -112,10 +112,20 @@ function generateHTML(data: CVData): string {
         </div>
       </header>
 
-      <!-- SUMMARY -->
-      ${data.personalInfo.summary ? `<p class="text-justify mb-5 text-gray-700 text-[13px]">${data.personalInfo.summary}</p>` : ""}
-
-      <!-- TECHNICAL SKILLS -->
+      <!-- DYNAMIC SECTIONS -->
+      ${(data.sectionOrder?.length ? data.sectionOrder : ["summary", "technicalSkills", "experience", "projects", "education"])
+        .map((section) => {
+          switch (section) {
+            case "summary":
+              return data.personalInfo.summary
+                ? `<p class="text-justify mb-5 text-gray-700 text-[13px]">${data.personalInfo.summary}</p>`
+                : "";
+            case "technicalSkills":
+              return data.technicalSkills.languages ||
+                data.technicalSkills.frameworks ||
+                data.technicalSkills.databases ||
+                data.technicalSkills.devops
+                ? `
       <section class="mb-5 page-break-avoid">
         <h2 class="section-header">Technical Skills</h2>
         <div class="space-y-0.5 text-[13px]">
@@ -124,12 +134,11 @@ function generateHTML(data: CVData): string {
           ${data.technicalSkills.databases ? `<p><strong class="font-semibold text-gray-900">Databases & ORMs:</strong> ${data.technicalSkills.databases}</p>` : ""}
           ${data.technicalSkills.devops ? `<p><strong class="font-semibold text-gray-900">DevOps & Infra:</strong> ${data.technicalSkills.devops}</p>` : ""}
         </div>
-      </section>
-
-      <!-- PROFESSIONAL EXPERIENCE -->
-      ${
-        data.experience.length > 0
-          ? `
+      </section>`
+                : "";
+            case "experience":
+              return data.experience.length > 0
+                ? `
       <section class="mb-5">
         <h2 class="section-header">Professional Experience</h2>
         <div class="space-y-4">
@@ -146,19 +155,15 @@ function generateHTML(data: CVData): string {
                 ${toBullets(exp.description)}
               </ul>
             </div>
-          `,
+          `
             )
             .join("")}
         </div>
-      </section>
-      `
-          : ""
-      }
-
-      <!-- KEY ENGINEERING PROJECTS -->
-      ${
-        data.projects.length > 0
-          ? `
+      </section>`
+                : "";
+            case "projects":
+              return data.projects.length > 0
+                ? `
       <section class="mb-5">
         <h2 class="section-header">Key Engineering Projects</h2>
         <div class="space-y-4">
@@ -175,19 +180,15 @@ function generateHTML(data: CVData): string {
                 ${toBullets(proj.description)}
               </ul>
             </div>
-          `,
+          `
             )
             .join("")}
         </div>
-      </section>
-      `
-          : ""
-      }
-
-      <!-- EDUCATION -->
-      ${
-        data.education.length > 0
-          ? `
+      </section>`
+                : "";
+            case "education":
+              return data.education.length > 0
+                ? `
       <section class="mb-5 page-break-avoid">
         <h2 class="section-header">Education</h2>
         <div class="space-y-3">
@@ -207,14 +208,17 @@ function generateHTML(data: CVData): string {
                 ${toBullets(edu.description)}
               </ul>
             </div>
-          `,
+          `
             )
             .join("")}
         </div>
-      </section>
-      `
-          : ""
-      }
+      </section>`
+                : "";
+            default:
+              return "";
+          }
+        })
+        .join("\n")}
 
     </body>
     </html>

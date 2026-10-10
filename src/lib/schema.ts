@@ -44,6 +44,7 @@ export const cvSchema = z.object({
   experience: z.array(experienceSchema),
   projects: z.array(projectSchema),
   education: z.array(educationSchema),
+  sectionOrder: z.array(z.string()).optional(),
 });
 
 export type CVData = z.infer<typeof cvSchema>;

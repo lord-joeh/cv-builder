@@ -1,5 +1,5 @@
 # Stage 1: Base image with OS dependencies
-FROM node:20-bookworm-slim AS base
+FROM node:24-bookworm-slim AS base
 
 # Install OS dependencies required for headless Chromium
 RUN apt-get update && apt-get install -y \
@@ -36,6 +36,8 @@ ENV PORT=3000
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
+COPY --from=builder /app/node_modules/@napi-rs ./node_modules/@napi-rs
 
 EXPOSE 3000
 
