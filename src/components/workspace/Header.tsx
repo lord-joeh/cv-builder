@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Download, Loader2, Upload } from "lucide-react";
+import Image from "next/image";
 import { RefObject } from "react";
 
 interface HeaderProps {
@@ -22,10 +23,15 @@ export default function Header({
   return (
     <header className="h-16 bg-background/60 backdrop-blur-xl border-b border-border flex items-center justify-between px-8 shrink-0 z-10 sticky top-0 transition-all duration-300">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center border border-primary/50 shadow-[0_0_15px_rgba(100,50,255,0.4)]">
-          <span className="text-primary font-bold text-lg leading-none">S</span>
-        </div>
-        <h1 className="font-bold text-xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-400">
+        <Image
+          src="/icon.svg"
+          alt="Styles CV Builder"
+          width={32}
+          height={32}
+          className="w-8 h-8 rounded-lg shadow-sm"
+          priority
+        />
+        <h1 className="font-bold text-xl tracking-tight text-primary">
           Styles CV Builder
         </h1>
       </div>

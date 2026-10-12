@@ -133,7 +133,7 @@ export default function WorkspacePage() {
               {/* The scale keeps the large A4 paper visible on smaller monitors */}
               <div className="transform origin-top scale-[0.85] xl:scale-100 pb-24 transition-all duration-500 hover:scale-[0.87] xl:hover:scale-[1.02]">
                 <div className="relative group">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+                  <div className="absolute -inset-1 bg-primary rounded-lg blur-md opacity-20 group-hover:opacity-35 transition duration-500" />
                   <div className="relative ring-1 ring-gray-900/5">
                     <CVPreview data={cvData} />
                   </div>

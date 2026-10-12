@@ -15,10 +15,10 @@ export default function CVPreview({ data }: { data: Partial<CVData> }) {
       {/* HEADER */}
       <header className="text-center mb-6 pb-4 border-b-2 border-slate-900">
         <h1 className="text-3xl font-extrabold tracking-tight uppercase text-slate-900">
-          {data?.personalInfo?.fullName || "Your Name"}
+          {data?.personalInfo?.fullName || ""}
         </h1>
         <p className="text-sm font-medium tracking-widest text-slate-600 uppercase mt-1">
-          {data?.personalInfo?.role || "Your Role"}
+          {data?.personalInfo?.role || ""}
         </p>
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-slate-500 mt-3 font-medium">
           <span>{data?.personalInfo?.location}</span>

@@ -131,7 +131,7 @@ export default function CVForm({ onChange, initialData }: CVFormProps) {
         <Accordion
           type="multiple"
           defaultValue={["personal"]}
-          className="w-full"
+          className="w-full space-y-4"
         >
           {/* LAYOUT ORDER */}
           <AccordionItem value="layout">

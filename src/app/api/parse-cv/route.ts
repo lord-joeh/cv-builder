@@ -14,14 +14,14 @@ export async function POST(req: NextRequest) {
     if (!limitResult.success) {
       return NextResponse.json(
         { error: "Too many requests. Please try again later." },
-        { 
+        {
           status: 429,
           headers: {
             "X-RateLimit-Limit": "5",
             "X-RateLimit-Remaining": limitResult.remaining.toString(),
-            "X-RateLimit-Reset": limitResult.resetAt.toString()
-          }
-        }
+            "X-RateLimit-Reset": limitResult.resetAt.toString(),
+          },
+        },
       );
     }
     const formData = await req.formData();
@@ -111,15 +111,54 @@ export async function POST(req: NextRequest) {
       """
     `;
 
-    const response = await ai.models.generateContent({
-      model: gemini_model!,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      },
-    });
+    const candidateModels = [
+      gemini_model,
+      "gemini-3.8-flash",
+      "gemini-3.7-flash",
+      "gemini-flash-latest",
+    ].filter(
+      (m, idx, arr): m is string => Boolean(m) && arr.indexOf(m) === idx,
+    );
 
-    let jsonString = response.text;
+    let jsonString = "";
+    let lastError: unknown = null;
+
+    for (const model of candidateModels) {
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          const response = await ai.models.generateContent({
+            model,
+            contents: prompt,
+            config: {
+              responseMimeType: "application/json",
+            },
+          });
+
+          if (response.text) {
+            jsonString = response.text;
+            break;
+          }
+        } catch (err: unknown) {
+          lastError = err;
+          const errMsg = err instanceof Error ? err.message : String(err);
+          const isOverloaded =
+            errMsg.includes("503") ||
+            errMsg.includes("high demand") ||
+            (err as { status?: number })?.status === 503;
+
+          if (isOverloaded && attempt < 2) {
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+          } else {
+            break;
+          }
+        }
+      }
+      if (jsonString) break;
+    }
+
+    if (!jsonString) {
+      throw lastError || new Error("Failed to generate JSON from Gemini");
+    }
 
     // Clean up if it returned markdown
     if (jsonString && jsonString.startsWith("\`\`\`json")) {
@@ -140,8 +179,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(validatedData);
   } catch (error: unknown) {
     console.error("PDF Parsing Error:", error);
-    const errorMessage = "An unexpected error occurred while processing the CV. Please try again.";
+    const errMsg = error instanceof Error ? error.message : String(error);
+    const isHighDemand =
+      errMsg.includes("503") ||
+      errMsg.includes("high demand") ||
+      (error as { status?: number })?.status === 503;
 
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    const errorMessage = isHighDemand
+      ? "The AI service is temporarily experiencing high traffic from Google. Please try again in a few moments."
+      : "An unexpected error occurred while processing the CV. Please try again.";
+
+    return NextResponse.json(
+      { error: errorMessage },
+      { status: isHighDemand ? 503 : 500 },
+    );
   }
 }
