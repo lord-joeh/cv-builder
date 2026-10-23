@@ -55,7 +55,6 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("PDF Generation Error:", error);
     return NextResponse.json(
       { error: "Failed to generate PDF" },
       { status: 500 },
