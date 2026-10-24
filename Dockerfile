@@ -1,5 +1,5 @@
 # Stage 1: Base image with OS dependencies
-FROM node:24-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 
 # Install OS dependencies required for headless Chromium
 RUN apt-get update && apt-get install -y \
