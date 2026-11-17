@@ -31,7 +31,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV HOSTNAME="0.0.0.0"
-ENV PORT=10000
+ENV PORT=3000
 
 # Copy the standalone build output from Stage 3
 COPY --from=builder /app/public ./public
@@ -40,6 +40,6 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/pdfjs-dist ./node_modules/pdfjs-dist
 COPY --from=builder /app/node_modules/@napi-rs ./node_modules/@napi-rs
 
-EXPOSE 10000
+EXPOSE 3000
 
 CMD ["node", "server.js"]
