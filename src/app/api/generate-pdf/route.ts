@@ -112,7 +112,10 @@ function generateHTML(data: CVData): string {
       </header>
 
       <!-- DYNAMIC SECTIONS -->
-      ${(data.sectionOrder?.length ? data.sectionOrder : ["summary", "technicalSkills", "experience", "projects", "education"])
+      ${(data.sectionOrder?.length
+        ? data.sectionOrder
+        : ["summary", "technicalSkills", "experience", "projects", "education"]
+      )
         .map((section) => {
           switch (section) {
             case "summary":
@@ -154,7 +157,7 @@ function generateHTML(data: CVData): string {
                 ${toBullets(exp.description)}
               </ul>
             </div>
-          `
+          `,
             )
             .join("")}
         </div>
@@ -179,7 +182,7 @@ function generateHTML(data: CVData): string {
                 ${toBullets(proj.description)}
               </ul>
             </div>
-          `
+          `,
             )
             .join("")}
         </div>
@@ -207,7 +210,7 @@ function generateHTML(data: CVData): string {
                 ${toBullets(edu.description)}
               </ul>
             </div>
-          `
+          `,
             )
             .join("")}
         </div>

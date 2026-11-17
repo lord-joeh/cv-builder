@@ -48,7 +48,9 @@ export default function WorkspacePage() {
     } catch (error: unknown) {
       console.error("Parse Error:", error);
       const errorMessage =
-        error instanceof Error ? error.message : "An unexpected error occurred while parsing the CV";
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred while parsing the CV";
       toast.error(errorMessage);
     } finally {
       setIsParsing(false);
@@ -109,7 +111,10 @@ export default function WorkspacePage() {
           />
         ) : (
           /* Split Pane Editor */
-          <ResizablePanelGroup orientation="horizontal" className="h-full w-full animate-in fade-in duration-500">
+          <ResizablePanelGroup
+            orientation="horizontal"
+            className="h-full w-full animate-in fade-in duration-500"
+          >
             {/* Left Panel: Form */}
             <ResizablePanel
               defaultSize={40}
@@ -121,7 +126,10 @@ export default function WorkspacePage() {
               </div>
             </ResizablePanel>
 
-            <ResizableHandle withHandle className="bg-border w-1 hover:w-2 hover:bg-primary/50 transition-all duration-300" />
+            <ResizableHandle
+              withHandle
+              className="bg-border w-1 hover:w-2 hover:bg-primary/50 transition-all duration-300"
+            />
 
             {/* Right Panel: Live Preview */}
             <ResizablePanel

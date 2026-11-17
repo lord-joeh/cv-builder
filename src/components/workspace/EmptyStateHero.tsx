@@ -16,10 +16,13 @@ export default function EmptyStateHero({
           ✨ AI Powered CV Builder
         </div>
         <h2 className="text-5xl font-extrabold tracking-tight lg:text-6xl text-foreground">
-          Craft your <span className="text-primary font-bold">Premium CV</span> in seconds.
+          Craft your <span className="text-primary font-bold">Premium CV</span>{" "}
+          in seconds.
         </h2>
         <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto">
-          Upload your existing, unformatted resume. Our state-of-the-art AI will instantly restructure, enhance, and generate a breathtaking professional PDF tailored for top tech companies.
+          Upload your existing, unformatted resume. Our state-of-the-art AI will
+          instantly restructure, enhance, and generate a breathtaking
+          professional PDF tailored for top tech companies.
         </p>
 
         <div className="flex flex-col items-center gap-4 pt-4">

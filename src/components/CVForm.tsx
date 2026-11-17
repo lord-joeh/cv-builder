@@ -91,7 +91,7 @@ export default function CVForm({ onChange, initialData }: CVFormProps) {
     if (initialData && Object.keys(initialData).length > 0) {
       form.reset({
         ...form.getValues(),
-        ...initialData
+        ...initialData,
       });
     }
   }, [initialData, form]);
@@ -253,10 +253,7 @@ export default function CVForm({ onChange, initialData }: CVFormProps) {
                     <FormItem>
                       <FormLabel>GitHub</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="github.com/user-name"
-                          {...field}
-                        />
+                        <Input placeholder="github.com/user-name" {...field} />
                       </FormControl>
                     </FormItem>
                   )}

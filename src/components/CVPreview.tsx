@@ -43,13 +43,7 @@ export default function CVPreview({ data }: { data: Partial<CVData> }) {
       {/* DYNAMIC SECTIONS */}
       {(data?.sectionOrder?.length
         ? data.sectionOrder
-        : [
-            "summary",
-            "technicalSkills",
-            "experience",
-            "projects",
-            "education",
-          ]
+        : ["summary", "technicalSkills", "experience", "projects", "education"]
       ).map((section) => {
         switch (section) {
           case "summary":
